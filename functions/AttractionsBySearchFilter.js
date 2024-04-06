@@ -11,7 +11,7 @@ exports = async function({ query, headers, body}, response) {
                 { "placeLocation.text": { $regex: placeName, $options: "i" } }, // Case-insensitive matching
                 { placeName: { $regex: placeName, $options: "i" } },
                 ]
-            })
+            },{placeName:1, placeImage:1, placeCity:1})
             .sort({ placeName: 1 })
             .toArray();
             console.log(possibleAttractions)
