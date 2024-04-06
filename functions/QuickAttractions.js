@@ -11,9 +11,14 @@ exports = async function({ query, headers, body}, response) {
             .toArray();
             
         quickAttractions=quickAttractions.map(async(attraction) => {
-             let detailed_attraction = await doc_attractions.findOne({ _id: { $in: attraction.attractions } },{ placeName: 1, placeCity: 1, placeImage: 1, placeAliasImage: 1 });
-             console.log(detailed_attraction)
-            return detailed_attraction;
+  
+             attraction.attractions=attraction.attractions.map(async(attraction_id)=>{
+               let detailed_attraction = await doc_attractions.findOne({ _id: attraction_id },{ placeName: 1, placeCity: 1, placeImage: 1, placeAliasImage: 1 });
+               return detailed_attraction;
+             })
+             
+            // console.log(detailed_attraction)
+            return attraction;
         })
 
         return quickAttractions;
