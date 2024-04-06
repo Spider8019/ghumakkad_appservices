@@ -5,7 +5,7 @@ exports = async function({ query, headers, body}, response) {
     const limit = parseInt(query.limit) || 10;
 
     try {
-        let topSearchedAttractions = await doc.find({})
+        let topSearchedAttractions = await doc.find({},{ placeName:1, placeImage:1, placeCity:1, placeVisit:1 })
             .sort({ placeVisit: -1 }) // Sort by placeVisit in descending order
             .limit(limit)
             .toArray();
