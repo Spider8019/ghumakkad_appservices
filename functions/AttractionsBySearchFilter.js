@@ -3,13 +3,18 @@ exports = async function({ query, headers, body}, response) {
   
     const doc = context.services.get("mongodb-atlas").db("nodeapp").collection("places");
     const {placeName} = query;
-    let regex = new RegExp(placeName, 'i');
+    console.log(placeName)
+
     try {
         let possibleAttractions = await doc.find({
-              $or: [{ placeName: regex }, { placeCity: regex }]
+              $or: [
+                { "placeLocation.text": { $regex: placeName, $options: "i" } }, // Case-insensitive matching
+                { placeName: { $regex: placeName, $options: "i" } },
+                ]
             })
             .sort({ placeName: 1 })
             .toArray();
+            console.log(possibleAttractions)
         
         return possibleAttractions;
     } catch (e) {
