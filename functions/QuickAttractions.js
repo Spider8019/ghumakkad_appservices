@@ -10,10 +10,10 @@ exports = async function({ query, headers, body}, response) {
             .sort({ createdAt: 1 })
             .toArray();
             
-        quickAttractions.map(async(attraction) => {
-             let attractions = await doc_attractions.find({ _id: { $in: attraction.attractions } },{ placeName: 1, placeCity: 1, placeImage: 1, placeAliasImage: 1 })
-            .toArray();
-            return attractions;
+        quickAttractions=quickAttractions.map(async(attraction) => {
+             let detailed_attraction = await doc_attractions.findOne({ _id: { $in: attraction.attractions } },{ placeName: 1, placeCity: 1, placeImage: 1, placeAliasImage: 1 });
+             console.log(detailed_attraction)
+            return detailed_attraction;
         })
 
         return quickAttractions;
