@@ -18,10 +18,12 @@ exports = async function({ query, headers, body}, response) {
         let allEventsInACity = await doc_e.find({ eventCities: { $in: [cityName] } })
             .sort({ tillDate: 1 })
             .toArray()
-        // allEventsInACity=allEventsInACity.map(async(event) => {
-        //   event.eventPlace = await doc.findOne({ _id: event.eventPlace },{ placeName: 1});
-        //     return event;
-        // })
+           allEventsInACity=allEventsInACity.map(async(event) => {
+             if (event.eventPlace) {
+              event.eventPlace = await doc.findOne({ _id: event.eventPlace }, { placeName: 1 });
+            }
+            return event;
+         })
         return {allAttractionsInACity,allTouristGuidesInACity,allEventsInACity};
     } catch (e) {
         console.error("Error occurred while fetching attractions:", e);
