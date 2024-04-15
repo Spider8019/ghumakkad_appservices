@@ -27,7 +27,6 @@ exports = async function({ query, headers, body}, response) {
          })
          
         let allRentalGaadiCategory = await doc_rg.distinct("gaadiModel",{cities:{$in:[cityName]}})
-            .toArray()
             
         return {allAttractionsInACity,allTouristGuidesInACity,allEventsInACity,allRentalGaadiCategory};
     } catch (e) {
