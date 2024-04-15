@@ -4,6 +4,7 @@ exports = async function({ query, headers, body}, response) {
     const doc = context.services.get("mongodb-atlas").db("nodeapp").collection("places");
     const doc_tg = context.services.get("mongodb-atlas").db("nodeapp").collection("touristguides")
     const doc_e = context.services.get("mongodb-atlas").db("nodeapp").collection("events")
+    const doc_rg = context.services.get("mongodb-atlas").db("nodeapp").collection("rentalgaadis")
     const cityName = query.cityName;
 
     try {
@@ -24,7 +25,11 @@ exports = async function({ query, headers, body}, response) {
             }
             return event;
          })
-        return {allAttractionsInACity,allTouristGuidesInACity,allEventsInACity};
+         
+        let allRentalGaadiCategory = await doc_rg.distinct("gaadiModel",{cities:{$in:[cityName]}},{gaadiModel:1})
+            .sort({rechargedBy:1})
+            .toArray()
+        return {allAttractionsInACity,allTouristGuidesInACity,allEventsInACity,allRentalGaadiCategory};
     } catch (e) {
         console.error("Error occurred while fetching attractions:", e);
         return { error: e.message };
