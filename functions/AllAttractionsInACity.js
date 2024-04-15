@@ -27,6 +27,10 @@ exports = async function({ query, headers, body}, response) {
          })
          
         let allRentalGaadiCategory = await doc_rg.distinct("gaadiModel",{cities:{$in:[cityName]}})
+        const jsondata= await context.functions.execute("FetchInfoFromLink","https://raw.githubusercontent.com/Spider8019/json_config/master/gaadi.json")
+        if (jsondata) {
+           allRentalGaadiCategory=jsondata.filter(car => allRentalGaadiCategory.includes(car.gaadiModel))
+        }
             
         return {allAttractionsInACity,allTouristGuidesInACity,allEventsInACity,allRentalGaadiCategory};
     } catch (e) {
