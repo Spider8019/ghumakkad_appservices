@@ -26,9 +26,10 @@ exports = async function({ query, headers, body}, response) {
             return event;
          })
          
-        let allRentalGaadiCategory = await doc_rg.distinct("gaadiModel",{cities:{$in:[cityName]}},{gaadiModel:1})
+        let allRentalGaadiCategory = await doc_rg.distinct("gaadiModel",{cities:{$in:[cityName]}})
             .sort({rechargedBy:1})
             .toArray()
+            
         return {allAttractionsInACity,allTouristGuidesInACity,allEventsInACity,allRentalGaadiCategory};
     } catch (e) {
         console.error("Error occurred while fetching attractions:", e);
