@@ -5,7 +5,7 @@ exports = async function({ query, headers, body}, response) {
     let model=query.model
     
     try {
-        let availableGaadis = await doc.find({ cityName,gaadiModel:model }).sort({ priority: 1 })
+        let availableGaadis = await doc.find({ cities:{$in:[cityName]},gaadiModel:model }).sort({ priority: 1 })
             .toArray();
         let gaadiUrl="";
         const jsondata= await context.functions.execute("FetchInfoFromLink","https://raw.githubusercontent.com/Spider8019/json_config/master/gaadi.json")
