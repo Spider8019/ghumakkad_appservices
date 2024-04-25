@@ -5,10 +5,7 @@ exports = function({ query, headers, body}, response) {
       const mongodb = context.services.get("mongodb-atlas");
       const tripCollection = mongodb.db("nodeapp").collection("trips");
       
-      const encodedData = body.Data;
-      console.log("Encoded data:", encodedData); // Add this line for logging
-      const decodedData = Buffer.from(encodedData, 'base64').toString('utf-8');
-      const jsonData = JSON.parse(decodedData);
+      const jsonData = body;
       
       if (!jsonData || !jsonData.peopleCount || !jsonData.pickupPoint || !jsonData.dropPoint || !jsonData.placesToVisit) {
             return { error: "Missing required fields: peopleCount, pickupPoint, dropPoint, placesToVisit",body,query,jsonData };
