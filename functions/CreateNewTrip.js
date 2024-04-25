@@ -5,8 +5,8 @@ exports = function({ query, headers, body}, response) {
       const mongodb = context.services.get("mongodb-atlas");
       
       const tripCollection = mongodb.db("nodeapp").collection("trips");
-      return body.Data
-      console.log()
+      // return body.Data
+      console.log(body,body.Data)
       const decodedData = Buffer.from(body.Data, 'base64').toString('utf-8');
       const jsonData = JSON.parse(decodedData);
       
