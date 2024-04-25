@@ -3,11 +3,15 @@ exports = function({ query, headers, body}, response) {
     
     try {
       const mongodb = context.services.get("mongodb-atlas");
+      
       const tripCollection = mongodb.db("nodeapp").collection("trips");
-      if (!body || !body.peopleCount || !body.pickupPoint || !body.dropPoint || !body.placesToVisit) {
-            return { error: "Missing required fields: peopleCount, pickupPoint, dropPoint, placesToVisit",body,query };
+      const decodedData = Buffer.from(base64Data, 'base64').toString('utf-8');
+      const jsonData = JSON.parse(decodedData);
+      
+      if (!jsonData || !jsonData.peopleCount || !jsonData.pickupPoint || !jsonData.dropPoint || !jsonData.placesToVisit) {
+            return { error: "Missing required fields: peopleCount, pickupPoint, dropPoint, placesToVisit",body,query,jsonData };
       }
-      return tripCollection.insertOne(body)
+      return tripCollection.insertOne(jsonData)
         .then(result => {return result})
         .catch(err => {return err̥})
     } catch (e) {
