@@ -6,6 +6,7 @@ exports = function({ query, headers, body}, response) {
       const tripCollection = mongodb.db("nodeapp").collection("trips");
       
       const encodedData = body.Data;
+      console.log("Encoded data:", encodedData); // Add this line for logging
       const decodedData = Buffer.from(encodedData, 'base64').toString('utf-8');
       const jsonData = JSON.parse(decodedData);
       
