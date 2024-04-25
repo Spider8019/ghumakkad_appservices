@@ -1,7 +1,7 @@
 // This function is the endpoint's request handler.
 exports = async function({ query, headers, body}, response) {
     const mongodb = context.services.get("mongodb-atlas");
-    const tripCollection = mongodb.db("store").collection("trips");
+    const tripCollection = mongodb.db("nodeapp").collection("trips");
     try {
       if (!body || !body.peopleCount || !body.pickupPoint || !body.dropPoint || !body.placesToVisit) {
             return { error: "Missing required fields: peoplecount, pickupPoint, dropPoint, placesToVisit" };
