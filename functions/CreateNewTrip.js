@@ -4,7 +4,7 @@ exports = async function({ query, headers, body}, response) {
     const tripCollection = mongodb.db("nodeapp").collection("trips");
     try {
       if (!body || !body.peopleCount || !body.pickupPoint || !body.dropPoint || !body.placesToVisit) {
-            return { error: "Missing required fields: peopleCount, pickupPoint, dropPoint, placesToVisit",body };
+            return { error: "Missing required fields: peopleCount, pickupPoint, dropPoint, placesToVisit",body,query,headers };
       }
       const newItem = {
         ...body
