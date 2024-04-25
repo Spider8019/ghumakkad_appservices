@@ -5,9 +5,9 @@ exports = function({ query, headers, body}, response) {
       const mongodb = context.services.get("mongodb-atlas");
       
       const tripCollection = mongodb.db("nodeapp").collection("trips");
-      return body
-      console.log(body)
-      const decodedData = Buffer.from(body.Data, 'base64').toString('utf-8');
+      return JSON.parse(body).Data
+      console.log()
+      const decodedData = Buffer.from(JSON.parse(body).Data, 'base64').toString('utf-8');
       const jsonData = JSON.parse(decodedData);
       
       if (!jsonData || !jsonData.peopleCount || !jsonData.pickupPoint || !jsonData.dropPoint || !jsonData.placesToVisit) {
