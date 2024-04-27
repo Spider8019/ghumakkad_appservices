@@ -4,7 +4,7 @@ exports = async function({ query, headers, body}, response) {
     try {
       const mongodb = context.services.get("mongodb-atlas");
       const tripCollection = mongodb.db("nodeapp").collection("trips");
-      return body;
+      return body.Data;
       // const encodedData = body.Data;
       // console.log("Encoded data:", encodedData); // Add this line for loggingf
       // const decodedData = Buffer.from(encodedData, 'base64').toString('utf-8');
