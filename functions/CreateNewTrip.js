@@ -15,7 +15,7 @@ exports = async function({ query, headers, body}, response) {
       // }
       return tripCollection.insertOne(body)
         .then(result => {return result})
-        .catch(err => {return err̥})
+        .catch(err => {return err})
     } catch (e) {
         console.error("Error occurred while fetching attractions:", e);
         return { error: e.message };
