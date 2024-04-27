@@ -13,7 +13,7 @@ exports = async function({ query, headers, body}, response) {
       // if (!jsonData || !jsonData.peopleCount || !jsonData.pickupPoint || !jsonData.dropPoint || !jsonData.placesToVisit) {
       //       return { error: "Missing required fields: peopleCount, pickupPoint, dropPoint, placesToVisit",body,query,jsonData };
       // }
-      return tripCollection.insertOne(jsonData)
+      return tripCollection.insertOne(body)
         .then(result => {return result})
         .catch(err => {return err̥})
     } catch (e) {
