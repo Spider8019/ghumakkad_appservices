@@ -3,7 +3,7 @@ exports = async function({ query, headers, body}, response) {
   
     const doc = context.services.get("mongodb-atlas").db("nodeapp").collection("quickattractions");
     const doc_attractions= context.services.get("mongodb-atlas").db("nodeapp").collection("places");
-    const userId=query.userId
+    const userId=query.userId || "admin"
     //const M = require("mongoose")
 
   
