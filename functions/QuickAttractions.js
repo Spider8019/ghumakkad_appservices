@@ -3,10 +3,18 @@ exports = async function({ query, headers, body}, response) {
   
     const doc = context.services.get("mongodb-atlas").db("nodeapp").collection("quickattractions");
     const doc_attractions= context.services.get("mongodb-atlas").db("nodeapp").collection("places");
+    const userId=query.userId
     //const M = require("mongoose")
 
+  
     try {
-        let quickAttractions = await doc.find({ enabled: true })
+        let queryObject={}
+        if(userId==="admin"){
+              queryObject={...queryObject, enabled: true, public: true }
+        }else {
+              queryObject = {...queryObject,enabled:true,userId:userId}
+        }
+        let quickAttractions = await doc.find(queryObject)
             .sort({ createdAt: 1 })
             .toArray();
             
