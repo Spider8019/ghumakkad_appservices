@@ -10,7 +10,7 @@ exports = async function({ query, headers, body}, response) {
             return { error: "Missing required fields: title, description, attractions, createdBy",body,query,jsonData };
       }
       return qaCollection.insertOne(jsonData)
-        .then(result => {return {...result,...jsonData,objectID:mongodb.ObjectId("65edc558fad37e10ec904ae5")}})
+        .then(result => {return {...result,...jsonData,objectID:mongodb.ObjectId}})
         .catch(err => {return {...err,...jsonData,error:err.message}})
     } catch (e) {
         console.error("Error occurred while fetching attractions:", e);
