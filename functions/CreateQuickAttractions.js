@@ -35,7 +35,7 @@ exports = async function ({ query, headers, body }, response) {
       updatedAt: jsonData.updatedAt || Date.now(),
       createdAt: jsonData.createdAt || Date.now(),
     };
-    return newObject;
+
     const update = {
       $set: newObject,
     };
