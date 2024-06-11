@@ -20,16 +20,8 @@ exports = async function ({ query, headers, body }, response) {
         jsonData,
       };
     }
-    // Define the filter based on the _id field
-    let filter;
-    if (jsonData._id) {
-      // Use the provided _id if it's a valid ObjectId
-      filter = { _id: new ObjectId(jsonData._id) };
-      delete jsonData._id; // Remove _id from jsonData to prevent updating it
-    }
 
-    // Define the update operation
-    const newObject = {
+      const newObject = {
       labelForTitle: jsonData.labelForTitle,
       title: jsonData.title,
       attractions: jsonData.attractions,
@@ -40,24 +32,24 @@ exports = async function ({ query, headers, body }, response) {
       updatedAt: jsonData.updatedAt || Date.now(),
       createdAt: jsonData.createdAt || Date.now(),
     };
+    
+    // Define the filter based on the _id field
+    let filter;
+    if (jsonData._id==null) {
+      return qaCollection.insertOne(newObject)
+          .then(result => {return {...result,...jsonData,msg:"data inserted successfully"}})
+          .catch(err => {return {...err, error_msg:err.message}})
+    }else{
+       return qaCollection
+        .updateOne({_id:jsonData._id},{$set:newObject})
+        .then((result) => {
+          return { ...result, ...jsonData, msg:"data updated successfully" };
+        })
+        .catch((err) => {
+          return { ...err,newObject,error_msg:err.message };
+        });
+    }
 
-    const update = {
-      $set: newObject,
-    };
-
-    // Use the upsert option to insert or update the document
-    return qaCollection
-      .updateOne(filter, update, { upsert: true })
-      .then((result) => {
-        return { ...result, ...jsonData };
-      })
-      .catch((err) => {
-        return { ...err,msg:err.message,newObject };
-      });
-
-    // return qaCollection.insertOne(jsonData)
-    //   .then(result => {return {...result,...jsonData}})
-    //   .catch(err => {return {...err}})
   } catch (e) {
     console.error("Error occurred while fetching attractions:", e);
     return { error: e.message };
