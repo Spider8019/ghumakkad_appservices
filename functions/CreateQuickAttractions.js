@@ -1,7 +1,6 @@
 exports = async function({ query, headers, body }, response) {
     const mongodb = context.services.get("mongodb-atlas");
     const qaCollection = mongodb.db("nodeapp").collection("quickattractions");
-    const BSON = mongodb.BSON;
 
     try {
         const jsonData = JSON.parse(body.text());
@@ -15,7 +14,7 @@ exports = async function({ query, headers, body }, response) {
             const attractions = [];
             for (const attraction of jsonData.attractions) {
                 if (/^[0-9a-fA-F]{24}$/.test(attraction)) {
-                    attractions.push(new BSON.ObjectId(attraction));
+                    attractions.push(new mongodb.ObjectID(attraction));
                 } else {
                     throw new Error(`Invalid ObjectId hex string: ${attraction}`);
                 }
