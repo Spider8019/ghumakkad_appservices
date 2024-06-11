@@ -22,8 +22,8 @@ exports = async function({ query, headers, body}, response) {
                 coverImage: jsonData.coverImage || "",
                 public:jsonData.public || true,
                 createdBy: jsonData.createdBy,
-                updatedAt: jsonData.updatedAt,
-                createdAt: jsonData.createdAt
+                updatedAt: jsonData.updatedAt || Date.now(),
+                createdAt: jsonData.createdAt || Date.now()
             }
         };
 
