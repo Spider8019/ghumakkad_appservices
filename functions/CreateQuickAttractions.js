@@ -24,7 +24,7 @@ exports = async function ({ query, headers, body }, response) {
       const newObject = {
       labelForTitle: jsonData.labelForTitle,
       title: jsonData.title,
-      attractions: jsonData.attractions,
+      attractions: jsonData.attractions.map(x=>new BSON.ObjectId(x)),
       enabled: jsonData.enabled || true,
       coverImage: jsonData.coverImage || "",
       public: jsonData.public || true,
