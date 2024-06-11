@@ -4,7 +4,6 @@ exports = async function({ query, headers, body}, response) {
     try {
       const mongodb = context.services.get("mongodb-atlas");
       const qaCollection = mongodb.db("nodeapp").collection("quickattractions");
-      
       const jsonData=JSON.parse(body.text())
       
       if (!jsonData || !jsonData.labelForTitle || !jsonData.title || !jsonData.attractions || !jsonData.createdBy) {
