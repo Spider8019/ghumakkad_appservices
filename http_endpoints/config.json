@@ -99,7 +99,7 @@
         "return_type": "JSON"
     },
     {
-        "http_method": "POST",
+        "http_method": "*",
         "route": "/createQuickAttractions",
         "function_name": "CreateQuickAttractions",
         "validation_method": "NO_VALIDATION",
