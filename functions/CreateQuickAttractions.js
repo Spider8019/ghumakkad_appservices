@@ -10,8 +10,8 @@ exports = async function({ query, headers, body}, response) {
             return { error: "Missing required fields: title, description, attractions, createdBy",body,query,jsonData };
       }
       return qaCollection.insertOne(jsonData)
-        .then(result => {return result})
-        .catch(err => {return err})
+        .then(result => {return {...result,...jsonData}})
+        .catch(err => {return {...err,...jsonData}})
     } catch (e) {
         console.error("Error occurred while fetching attractions:", e);
         return { error: e.message };
