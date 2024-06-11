@@ -11,16 +11,22 @@ exports = async function({ query, headers, body }, response) {
             return { error: "Missing required fields: labelForTitle, title, attractions, createdBy", body, query, jsonData };
         }
 
-        // Convert hex strings in attractions to ObjectId
-        jsonData.attractions = jsonData.attractions.map(attraction => new ObjectId(attraction));
-
-        return qaCollection.insertOne(jsonData)
-            .then(result => {
-                return { ...result, ...jsonData, objectID: result.insertedId };
-            })
-            .catch(err => {
-                return { ...err, ...jsonData, error: err.message };
+        // Check and convert hex strings in attractions to ObjectId
+        if (Array.isArray(jsonData.attractions)) {
+            jsonData.attractions = jsonData.attractions.map(attraction => {
+                if (typeof attraction === 'string' && ObjectId.isValid(attraction)) {
+                    return new ObjectId(attraction);
+                } else {
+                    throw new Error(`Invalid ObjectId hex string: ${attraction}`);
+                }
             });
+        } else {
+            throw new Error("Attractions should be an array of hex strings.");
+        }
+
+        const result = await qaCollection.insertOne(jsonData);
+        return { ...result, ...jsonData, objectID: result.insertedId };
+
     } catch (e) {
         console.error("Error occurred while processing attractions:", e);
         return { error: e.message };
