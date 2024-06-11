@@ -1,8 +1,7 @@
-// This function is the endpoint's request handler.
 exports = async function({ query, headers, body }, response) {
     const mongodb = context.services.get("mongodb-atlas");
     const qaCollection = mongodb.db("nodeapp").collection("quickattractions");
-    const ObjectId = mongodb.ObjectId;
+    const ObjectId = require('mongodb').ObjectId;
 
     try {
         const jsonData = JSON.parse(body.text());
