@@ -47,7 +47,7 @@ exports = async function ({ query, headers, body }, response) {
         return { ...result, ...jsonData };
       })
       .catch((err) => {
-        return { ...err,msg:err.message };
+        return { ...err,msg:err.message,newObject };
       });
 
     // return qaCollection.insertOne(jsonData)
