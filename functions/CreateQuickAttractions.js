@@ -41,7 +41,7 @@ exports = async function ({ query, headers, body }, response) {
           .catch(err => {return {...err, error_msg:err.message}})
     }else{
        return qaCollection
-        .update({_id:jsonData._id},{$set:newObject})
+        .updateOne({_id:jsonData._id},{$set:newObject})
         .then((result) => {
           return { ...result, ...jsonData, msg:"data updated successfully" };
         })
