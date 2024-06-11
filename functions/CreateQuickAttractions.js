@@ -1,7 +1,7 @@
 exports = async function({ query, headers, body }, response) {
     const mongodb = context.services.get("mongodb-atlas");
     const qaCollection = mongodb.db("nodeapp").collection("quickattractions");
-    const ObjectId = require('mongodb').ObjectId;
+    const ObjectId = BSON.ObjectId;
 
     try {
         const jsonData = JSON.parse(body.text());
