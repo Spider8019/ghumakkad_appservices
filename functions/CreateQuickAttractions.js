@@ -1,7 +1,7 @@
 exports = async function({ query, headers, body }, response) {
     const mongodb = context.services.get("mongodb-atlas");
     const qaCollection = mongodb.db("nodeapp").collection("quickattractions");
-    const ObjectId = BSON.ObjectId;
+    const BSON = mongodb.BSON;
 
     try {
         const jsonData = JSON.parse(body.text());
@@ -12,13 +12,15 @@ exports = async function({ query, headers, body }, response) {
 
         // Check and convert hex strings in attractions to ObjectId
         if (Array.isArray(jsonData.attractions)) {
-            jsonData.attractions = jsonData.attractions.map(attraction => {
-                if (typeof attraction === 'string' && ObjectId.isValid(attraction)) {
-                    return new ObjectId(attraction);
+            const attractions = [];
+            for (const attraction of jsonData.attractions) {
+                if (/^[0-9a-fA-F]{24}$/.test(attraction)) {
+                    attractions.push(new BSON.ObjectId(attraction));
                 } else {
                     throw new Error(`Invalid ObjectId hex string: ${attraction}`);
                 }
-            });
+            }
+            jsonData.attractions = attractions;
         } else {
             throw new Error("Attractions should be an array of hex strings.");
         }
