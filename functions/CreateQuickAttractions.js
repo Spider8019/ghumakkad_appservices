@@ -21,7 +21,12 @@ exports = async function ({ query, headers, body }, response) {
       };
     }
     // Define the filter based on the _id field
-    const filter = { _id: jsonData._id };
+    let filter;
+    if (jsonData._id) {
+      // Use the provided _id if it's a valid ObjectId
+      filter = { _id: new ObjectId(jsonData._id) };
+      delete jsonData._id; // Remove _id from jsonData to prevent updating it
+    }
 
     // Define the update operation
     const newObject = {
