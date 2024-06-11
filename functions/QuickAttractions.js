@@ -12,7 +12,7 @@ exports = async function({ query, headers, body}, response) {
         if(userId==="admin"){
               queryObject={...queryObject, enabled: true, public: true }
         }else {
-              queryObject = {...queryObject,enabled:true,userId:userId}
+              queryObject = {...queryObject,enabled:true,createdBy:userId}
         }
         let quickAttractions = await doc.find(queryObject)
             .sort({ createdAt: 1 })
