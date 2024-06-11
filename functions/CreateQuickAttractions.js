@@ -11,7 +11,7 @@ exports = async function({ query, headers, body}, response) {
       }
       return qaCollection.insertOne(jsonData)
         .then(result => {return {...result,...jsonData}})
-        .catch(err => {return {...err,...jsonData}})
+        .catch(err => {return {...err,...jsonData,error:"ad"}})
     } catch (e) {
         console.error("Error occurred while fetching attractions:", e);
         return { error: e.message };
