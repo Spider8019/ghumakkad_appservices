@@ -5,6 +5,8 @@ exports = async function({ query, headers, body}, response) {
       const mongodb = context.services.get("mongodb-atlas");
       const qaCollection = mongodb.db("nodeapp").collection("quickattractions");
       const jsonData=JSON.parse(body.text())
+
+      return jsonData
       
       if (!jsonData || !jsonData.labelForTitle || !jsonData.title || !jsonData.attractions || !jsonData.createdBy) {
             return { error: "Missing required fields: title, description, attractions, createdBy",body,query,jsonData };
