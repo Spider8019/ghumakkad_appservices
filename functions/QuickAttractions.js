@@ -20,6 +20,7 @@ exports = async function ({ query, headers, body }, response) {
     }
     let quickAttractions = await doc
       .aggregate([
+        { $match: queryObject },
         {
           $addFields: {
             isAdminCreated: {
