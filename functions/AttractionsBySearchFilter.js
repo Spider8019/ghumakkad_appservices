@@ -15,7 +15,7 @@ exports = async function ({ query, headers, body }, response) {
     if (placeCategories) {
       const categoriesArray = placeCategories.split(",");
       const categoryRegexConditions = categoriesArray.map(category => ({
-        placeCategory: { $regex: new RegExp(category.trim(), "i") }
+        placeCategory: { $regex: category.trim(), $options: "i" }
       }));
 
       switch (true) {
