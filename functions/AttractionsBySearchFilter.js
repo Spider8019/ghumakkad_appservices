@@ -14,8 +14,8 @@ exports = async function ({ query, headers, body }, response) {
 
     if (placeCategories) {
       const categoriesArray = placeCategories.split(",");
-      const categoryRegexConditions = categoriesArray.map(category => ({
-        placeCategory: { $regex: category.trim(), $options: "i" }
+      const categoryRegexConditions = categoriesArray.map((category) => ({
+        placeCategory: { $regex: category.trim(), $options: "i" },
       }));
 
       switch (true) {
@@ -25,7 +25,9 @@ exports = async function ({ query, headers, body }, response) {
               { $or: categoryRegexConditions },
               {
                 $or: [
-                  { "placeLocation.text": { $regex: placeName, $options: "i" } },
+                  {
+                    "placeLocation.text": { $regex: placeName, $options: "i" },
+                  },
                   { placeName: { $regex: placeName, $options: "i" } },
                 ],
               },
@@ -61,7 +63,12 @@ exports = async function ({ query, headers, body }, response) {
     }
 
     let possibleAttractions = await doc
-      .find(filter, { placeName: 1, placeImage: 1, placeCity: 1 })
+      .find(filter, {
+        placeName: 1,
+        placeImage: 1,
+        placeCity: 1,
+        placeCategory: 1,
+      })
       .sort({ placeName: 1 })
       .toArray();
 
