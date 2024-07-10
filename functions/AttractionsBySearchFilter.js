@@ -12,38 +12,52 @@ exports = async function ({ query, headers, body }, response) {
   try {
     let filter = {};
 
-    switch (true) {
-      case !!placeName && !!placeCategories:
-        filter = {
-          $and: [
-            { placeCategory: { $in: placeCategories.split(",") } },
-            {
-              $or: [
-                { "placeLocation.text": { $regex: placeName, $options: "i" } },
-                { placeName: { $regex: placeName, $options: "i" } },
-              ],
-            },
-          ],
-        };
-        break;
+    if (placeCategories) {
+      const categoriesArray = placeCategories.split(",");
+      const categoryRegexConditions = categoriesArray.map(category => ({
+        placeCategory: { $regex: new RegExp(category.trim(), "i") }
+      }));
 
-      case !!placeName:
-        filter = {
-          $or: [
-            { "placeLocation.text": { $regex: placeName, $options: "i" } },
-            { placeName: { $regex: placeName, $options: "i" } },
-          ],
-        };
-        break;
+      switch (true) {
+        case !!placeName && !!placeCategories:
+          filter = {
+            $and: [
+              { $or: categoryRegexConditions },
+              {
+                $or: [
+                  { "placeLocation.text": { $regex: placeName, $options: "i" } },
+                  { placeName: { $regex: placeName, $options: "i" } },
+                ],
+              },
+            ],
+          };
+          break;
 
-      case !!placeCategories:
-        filter = {
-          placeCategory: { $in: placeCategories.split(",") },
-        };
-        break;
+        case !!placeName:
+          filter = {
+            $or: [
+              { "placeLocation.text": { $regex: placeName, $options: "i" } },
+              { placeName: { $regex: placeName, $options: "i" } },
+            ],
+          };
+          break;
 
-      default:
-        break;
+        case !!placeCategories:
+          filter = {
+            $or: categoryRegexConditions,
+          };
+          break;
+
+        default:
+          break;
+      }
+    } else if (placeName) {
+      filter = {
+        $or: [
+          { "placeLocation.text": { $regex: placeName, $options: "i" } },
+          { placeName: { $regex: placeName, $options: "i" } },
+        ],
+      };
     }
 
     let possibleAttractions = await doc
