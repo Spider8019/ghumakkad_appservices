@@ -16,7 +16,7 @@ exports = async function ({ query, headers, body }, response) {
       case !!placeName && !!placeCategories:
         filter = {
           $and: [
-            { placeCategories: { $in: placeCategories.split(",") } },
+            { placeCategory: { $in: placeCategories.split(",") } },
             {
               $or: [
                 { "placeLocation.text": { $regex: placeName, $options: "i" } },
@@ -38,7 +38,7 @@ exports = async function ({ query, headers, body }, response) {
 
       case !!placeCategories:
         filter = {
-          placeCategories: { $in: placeCategories.split(",") },
+          placeCategory: { $in: placeCategories.split(",") },
         };
         break;
 
