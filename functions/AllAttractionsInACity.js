@@ -60,13 +60,22 @@ exports = async function ({ query, headers, body }, response) {
       );
     }
 
-    let allQuickAttractions = await doc_qa
-      .find({
-        $or: [
-          { title: { $regex: cityName, $options: "i" } }, // Case-insensitive search
-          { labelfortitle: { $regex: cityName, $options: "i" } }, // Case-insensitive search
-        ],
-      })
+    let allGroupedAttractions = await doc_qa
+      .find(
+        {
+          // enabled: true,
+          $or: [
+            { title: { $regex: cityName, $options: "i" } }, // Case-insensitive search
+            { labelfortitle: { $regex: cityName, $options: "i" } }, // Case-insensitive search
+          ],
+        },
+        {
+          _id: 0,
+          title: 1,
+          coverImage: 1,
+        }
+      )
+      .sort({ createdAt: -1 }) // Sort by createdAt in descending order
       .toArray();
 
     return {
@@ -74,7 +83,7 @@ exports = async function ({ query, headers, body }, response) {
       allTouristGuidesInACity,
       allEventsInACity,
       allRentalGaadiCategory,
-      allQuickAttractions
+      allGroupedAttractions,
     };
   } catch (e) {
     console.error("Error occurred while fetching attractions:", e);
