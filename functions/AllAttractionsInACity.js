@@ -70,7 +70,6 @@ exports = async function ({ query, headers, body }, response) {
           ],
         },
         {
-          _id: 0,
           title: 1,
           coverImage: 1,
         }
