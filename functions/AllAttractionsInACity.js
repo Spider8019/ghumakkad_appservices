@@ -66,7 +66,7 @@ exports = async function ({ query, headers, body }, response) {
           // enabled: true,
           $or: [
             { title: { $regex: cityName, $options: "i" } }, // Case-insensitive search
-            { labelfortitle: { $regex: cityName, $options: "i" } }, // Case-insensitive search
+            { labelForTitle: { $regex: cityName, $options: "i" } }, // Case-insensitive search
           ],
         },
         {
