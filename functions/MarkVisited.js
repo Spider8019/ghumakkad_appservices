@@ -5,8 +5,8 @@ exports = async function({ query, headers, body}, response) {
       const mongodb = context.services.get("mongodb-atlas");
       const mvCollection = mongodb.db("nodeapp").collection("markVisited");
       const jsonData=JSON.parse(body.text())
-      
-      if (!jsonData || !jsonData.id || !jsonData.averagePrice || !jsonData.expenses || !jsonData.monthsInWhichYouVisit || !jsonData.rating || !jsonData.feedback) {
+      console.log(jsonData)
+      if (!jsonData || !jsonData.id || !jsonData.averageTime || !jsonData.expenses || !jsonData.monthsInWhichYouVisit || !jsonData.rating || !jsonData.feedback) {
             return { error: "Missing required fields: id, averagePrice, expenses, monthsInWhichYouVisit, rating, feedback",body,query,jsonData };
       }
       return mvCollection.insertOne(jsonData)
