@@ -25,7 +25,7 @@ exports = async function ({ query, headers, body }, response) {
   try {
     let allAttractionsInACity = await doc
       .find({ placeCity: cityName }, { placeName: 1, placeImage: 1 })
-      .sort({ placeName: 1 })
+      .sort({ placeVisit:-1,placeName: 1 })
       .toArray();
 
     let allTouristGuidesInACity = await doc_tg
