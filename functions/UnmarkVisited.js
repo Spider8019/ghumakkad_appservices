@@ -3,6 +3,7 @@ exports = async function ({ query, headers, body }, response) {
   try {
     const mongodb = context.services.get("mongodb-atlas");
     const mvCollection = mongodb.db("nodeapp").collection("markVisited");
+    return body;
     const jsonData = JSON.parse(body.text());
 
     if (
