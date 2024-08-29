@@ -4,10 +4,10 @@ exports = async function ({ query, headers, body }, response) {
     .get("mongodb-atlas")
     .db("nodeapp")
     .collection("markVisited");
-  let userId = query.userId;
-  let id = query.id;
-
+  
   try {
+    let userId = query.userId;
+    let id = query.id;
     let returnIfExisted = await doc.findOne({ userId, id });
     if (returnIfExisted == null) return { existing: false };
     return { ...returnIfExisted, existing: true };
