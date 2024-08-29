@@ -4,7 +4,7 @@ exports = async function({ query, headers, body}, response) {
     try {
       const mongodb = context.services.get("mongodb-atlas");
       const mvCollection = mongodb.db("nodeapp").collection("markVisited");
-      const jsonData=JSON.parse(body)
+      const jsonData=JSON.parse(body.text())
       console.log(jsonData)
       if (!jsonData || !jsonData.userId || !jsonData.id ) {
             return { error: "Missing required fields:" };
