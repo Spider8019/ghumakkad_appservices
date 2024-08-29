@@ -13,16 +13,16 @@ exports = async function ({ query, headers, body }, response) {
 
     if (!existingDoc) {
       response.setStatusCode(200);
-      return response.setBody({ existing: false });
+      return response.setBody(JSON.stringify({ existing: false }));
     }
 
     response.setStatusCode(200);
-    return response.setBody({ ...existingDoc, existing: true });
+    return response.setBody(JSON.stringify({ ...existingDoc, existing: true }));
 
   } catch (e) {
     console.error("Error occurred while fetching attractions:", e);
 
     response.setStatusCode(500); // Internal Server Error
-    return response.setBody({ error: e.message });
+    return response.setBody(JSON.stringify({ error: e.message }));
   }
 };
