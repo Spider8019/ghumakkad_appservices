@@ -16,8 +16,11 @@ exports = async function ({ query, headers, body }, response) {
       return response.setBody(JSON.stringify({ existing: false }));
     }
 
+    // Rename _id to insertedId
+    const { _id, ...rest } = existingDoc;
+    const result = { insertedId: _id, ...rest, existing: true };
     response.setStatusCode(200);
-    return response.setBody(JSON.stringify({ ...existingDoc, existing: true }));
+    return response.setBody(JSON.stringify(result));
 
   } catch (e) {
     console.error("Error occurred while fetching attractions:", e);
